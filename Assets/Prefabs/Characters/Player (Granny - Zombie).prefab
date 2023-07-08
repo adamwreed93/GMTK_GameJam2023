@@ -320,6 +320,8 @@ MonoBehaviour:
   _speed: 10
   _runMultiplier: 2
   _accelerationTime: 0.2
+  _staminaSlider: {fileID: 0}
+  _staminaFill: {fileID: 0}
 --- !u!1 &609322869144666476
 GameObject:
   m_ObjectHideFlags: 0
