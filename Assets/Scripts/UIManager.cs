@@ -6,10 +6,33 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    //Includes the "Awake" method.
+    #region Singleton
+    private static UIManager _instance;
+
+    public static UIManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                Debug.LogError("UIManager is null!");
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        _instance = this;
+    }
+    #endregion
+
+    public Transform playerObject; //Usable as a reference to the Player object.
+
     [SerializeField] private TextMeshProUGUI _currentDayText;
     [SerializeField] private TextMeshProUGUI _countdownTimerText;
     [SerializeField] private Animator _nightTextAnimator;
-    [SerializeField] private bool _isDaytime = true; //Game starts at daytime.
     [SerializeField] private Slider _sunTimer; //The Day Timer which is also a slider
     [SerializeField] private GameObject _sunImage;
     [SerializeField] private GameObject _clockBubbles;
@@ -21,6 +44,8 @@ public class UIManager : MonoBehaviour
     private bool _isCountdownStarted = false;
     private float _countdownDuration = 11f; //Duration of the countdown in seconds
     private float _countdownTimer = 0f; //Current countdown timer value
+
+    public bool isDaytime = true; //Game starts at daytime.
 
 
     void Start()
@@ -36,7 +61,7 @@ public class UIManager : MonoBehaviour
 
     private void RunClock()
     {
-        if (_isDaytime)
+        if (isDaytime)
         {
             _sunTimer.value += _increment * Time.deltaTime;
 
@@ -79,7 +104,7 @@ public class UIManager : MonoBehaviour
 
         //Play "Night Approaches..." text animation here! (AR)
 
-        _isDaytime = false;
+        isDaytime = false;
         _nightTextAnimator.SetTrigger("FadeInNightText");
         _directionalSunLight.color = new Color32(70, 54, 215, 255); //Night
         _countdownTimerText.gameObject.SetActive(false);

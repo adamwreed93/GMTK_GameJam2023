@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
     private float _stamina = 1f; // Initialize to full stamina
     private float _staminaDepletionRate = 0.2f; // Amount to decrease stamina per second while running
     private float _staminaRegenerationRate = 0.2f; // Amount to increase stamina per second while not running
-    private float _staminaFullTimer = 0f; // Timer to track how long stamina has been full
     private Color _lowStaminaColor = new Color(245f / 255f, 35f / 255f, 0f); // Color when stamina is .3 or below
     private Color _highStaminaColor = new Color(0f, 245f / 255f, 57f / 255f); // Color when stamina is above .3
 
