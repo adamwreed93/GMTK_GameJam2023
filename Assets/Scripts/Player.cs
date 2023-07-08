@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _runMultiplier = 2f; //Multiplier applied to speed when the player is running.
     [SerializeField] private float _accelerationTime = 0.2f; //Time it takes to reach full speed.
 
-    private float _verticalSpeed = 0f;
+    private float _fallSpeed = 0f;
     private float _defaultSpeed; //The base speed of the player, stored to revert to after running.
     private float _targetSpeed; // The speed we are currently trying to reach.
     private float _currentSpeed; // The current actual speed
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         _defaultSpeed = _speed;
         _targetSpeed = _speed;
         _currentSpeed = _speed;
-        transform.position = new Vector3(0, 0, 0);
+        //transform.position = new Vector3(0, -0.1f, 0);
         _plane = new Plane(Vector3.up, Vector3.zero);
 
         _controller = GetComponent<CharacterController>();
@@ -45,13 +45,13 @@ public class Player : MonoBehaviour
     private void Gravity()
     {
         // Check if the player is grounded. If not, apply gravity.
-        if (_controller.isGrounded && _verticalSpeed < 0)
+        if (_controller.isGrounded && _fallSpeed < 0)
         {
-            _verticalSpeed = 0f;
+            _fallSpeed = 0f;
         }
         else
         {
-            _verticalSpeed += _gravity * Time.deltaTime;
+            _fallSpeed += _gravity * Time.deltaTime;
         }
     }
 
@@ -66,8 +66,20 @@ public class Player : MonoBehaviour
 
         _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, Time.deltaTime / _accelerationTime);
 
-        _controller.Move(direction * _currentSpeed * Time.deltaTime);
+        if (!_controller.isGrounded)
+        {
+            direction.y = _fallSpeed;
+        }
+
+        _controller.Move(direction * (_currentSpeed * Time.deltaTime));
+
+        // After moving, clamp the position
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -500, 500);
+        clampedPosition.z = Mathf.Clamp(clampedPosition.z, -500, 500); // Assuming you want to clamp in the z direction as well
+        transform.position = clampedPosition;
     }
+
 
     void RotateGFXToMouse()
     {
