@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 6235663645781467084}
   - component: {fileID: 6235663645781467085}
   m_Layer: 0
-  m_Name: Player (Granny - Zombie)
+  m_Name: Granny - (Zombie)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,8 +280,8 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6036361813527420986}
   - {fileID: 6235663645651154147}
+  - {fileID: 6036361813527420986}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -322,6 +322,12 @@ MonoBehaviour:
   _accelerationTime: 0.2
   _staminaSlider: {fileID: 0}
   _staminaFill: {fileID: 0}
+  _currentPlayerHealth: 0
+  _maxPlayerHealth: 100
+  _zombifiedGrannyPrefab: {fileID: 0}
+  _livingGrannyGFX: {fileID: 0}
+  _livingGrannyCamera: {fileID: 0}
+  isZombified: 0
 --- !u!1 &609322869144666476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,7 +1307,7 @@ Transform:
   - {fileID: 609322869144666477}
   - {fileID: 555450642499536540}
   m_Father: {fileID: 609322869043287315}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6235663645651154158
 GameObject:
@@ -1316,12 +1322,12 @@ GameObject:
   - component: {fileID: 6235663645651154145}
   - component: {fileID: 6235663645651154146}
   m_Layer: 0
-  m_Name: Zombie Camera
+  m_Name: Zombified Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6235663645651154147
 Transform:
   m_ObjectHideFlags: 0
@@ -1335,7 +1341,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 609322869043287315}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 12.719, y: 0, z: 0}
 --- !u!20 &6235663645651154144
 Camera:
