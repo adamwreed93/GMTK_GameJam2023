@@ -16,6 +16,9 @@ public class BasicZombie : MonoBehaviour
     [SerializeField] private AudioClip[] _attackAudioClips;
     [SerializeField] private AudioClip[] _hurtAudioClips;
 
+    [SerializeField] private GameObject _bloodExplosionPrefab;
+    [SerializeField] private Transform _bloodExplosionContainer;
+
     [SerializeField] private state _enemyState;
 
     [SerializeField] private Animator _animator;
@@ -242,15 +245,15 @@ public class BasicZombie : MonoBehaviour
     {
         _enemyHealth -= damage;
         _animator.SetTrigger("GotHurt");
-        
+        Random.InitState(System.DateTime.Now.Millisecond);
+        _audioSource.PlayOneShot(_hurtAudioClips[Random.Range(0, 6)]);
         if (_enemyHealth <= 0)
         {
+            _bloodExplosionContainer.position = transform.position;
+            Instantiate(_bloodExplosionPrefab, _bloodExplosionContainer);
+            _animator.SetTrigger("OnDeath");
             Destroy(transform.parent.gameObject, .5f);
-        }
-        else
-        {
-            Random.InitState(System.DateTime.Now.Millisecond);
-            _audioSource.PlayOneShot(_hurtAudioClips[Random.Range(0, 3)]);
+
         }
     }
 }

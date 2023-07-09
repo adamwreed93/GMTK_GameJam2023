@@ -981,6 +981,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 561c219b68373bf48a98faf40c6b4157, type: 3}
   - {fileID: 8300000, guid: 91f4b4fb670901b4080b9c09ae25cf5b, type: 3}
   - {fileID: 8300000, guid: 932ef41509a84df41a0acf4403eac4da, type: 3}
+  - {fileID: 8300000, guid: 97e5e43f340a8f94bbe16c16b06e20b9, type: 3}
+  - {fileID: 8300000, guid: 4e6bf46a5bce76545a68d4e9a614513d, type: 3}
+  - {fileID: 8300000, guid: e05b6b5474473a7498495341f32fd8ac, type: 3}
+  _bloodExplosionPrefab: {fileID: 4757685393827615546, guid: c23c8028065075944bc77e8ee653a10c,
+    type: 3}
+  _bloodExplosionContainer: {fileID: 0}
   _enemyState: 0
   _animator: {fileID: 1358275942807556520}
   _leftHand: {fileID: 2604231301961874607}
@@ -1004,7 +1010,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 99ccdb3dff8d6c145914a10995f36e2b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
