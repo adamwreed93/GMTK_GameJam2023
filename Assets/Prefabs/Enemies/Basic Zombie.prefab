@@ -977,6 +977,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: af6544e8a6a048c4e9fa147c35ae9c39, type: 3}
   - {fileID: 8300000, guid: 1398f5f9b9bfe1247bc2403ea56a3189, type: 3}
   - {fileID: 8300000, guid: 4ba8b17cfa8ce584399349943ff0679c, type: 3}
+  _hurtAudioClips:
+  - {fileID: 8300000, guid: 561c219b68373bf48a98faf40c6b4157, type: 3}
+  - {fileID: 8300000, guid: 91f4b4fb670901b4080b9c09ae25cf5b, type: 3}
+  - {fileID: 8300000, guid: 932ef41509a84df41a0acf4403eac4da, type: 3}
   _enemyState: 0
   _animator: {fileID: 1358275942807556520}
   _leftHand: {fileID: 2604231301961874607}

@@ -14,6 +14,7 @@ public class BasicZombie : MonoBehaviour
 
     private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _attackAudioClips;
+    [SerializeField] private AudioClip[] _hurtAudioClips;
 
     [SerializeField] private state _enemyState;
 
@@ -155,6 +156,7 @@ public class BasicZombie : MonoBehaviour
             if (Time.time > _nextAttackTime) //Attack Cooldown.
             {
                 _animator.SetTrigger("BasicAttack");
+                Random.InitState(System.DateTime.Now.Millisecond);
                 _audioSource.PlayOneShot(_attackAudioClips[Random.Range(0, 6)]);
                 _nextAttackTime = Time.time + 2f; // Adds 2-second delay between attacks.
             }
@@ -239,10 +241,16 @@ public class BasicZombie : MonoBehaviour
     private void TakeDamage(int damage)
     {
         _enemyHealth -= damage;
-
+        _animator.SetTrigger("GotHurt");
+        
         if (_enemyHealth <= 0)
         {
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.parent.gameObject, .5f);
+        }
+        else
+        {
+            Random.InitState(System.DateTime.Now.Millisecond);
+            _audioSource.PlayOneShot(_hurtAudioClips[Random.Range(0, 3)]);
         }
     }
 }
