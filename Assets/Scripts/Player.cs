@@ -41,14 +41,19 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _livingGrannyCamera;
     [SerializeField] private GameObject _zombifiedGrannyCamera;
 
+    private GameManager _gameManager;
+    private UIManager _uiManager;
+
     public bool isZombified;
 
 
     void Start()
     {
+        _gameManager = GameManager.Instance;
+        _uiManager = UIManager.Instance;
         _currentPlayerHealth = _maxPlayerHealth;
-        _staminaFill = UIManager.Instance.staminaFill;
-        _staminaSlider = UIManager.Instance.staminaSlider;
+        _staminaFill = _uiManager.staminaFill;
+        _staminaSlider = _uiManager.staminaSlider;
 
         _defaultSpeed = _speed;
         _targetSpeed = _speed;
@@ -171,7 +176,7 @@ public class Player : MonoBehaviour
         }
         else if (_currentPlayerHealth <= 25 && _currentPlayerHealth > 0)
         {
-            UIManager.Instance.InjuredBloodyScreen(true);
+            _uiManager.InjuredBloodyScreen(true);
         }
     }
 
@@ -182,12 +187,13 @@ public class Player : MonoBehaviour
         _livingGrannyGFX.SetActive(false);
         _zombifiedGrannyGFX.SetActive(true);
         isZombified = true;
+        _gameManager.isZombified = isZombified;
         _currentPlayerHealth = 100;
     }
 
     private IEnumerator ZombieStartUpProtocol()
     {
-        UIManager.Instance.InjuredBloodyScreen(false);
+        _uiManager.InjuredBloodyScreen(false);
 
         // Get the start position for the "living" camera
         Vector3 cameraStartPosition = _livingGrannyCamera.transform.position;
@@ -221,10 +227,19 @@ public class Player : MonoBehaviour
         // Change the tag of the object this script is attached to
         this.gameObject.tag = "ZombiePlayer";
 
-        foreach(BasicZombie zombie in GameManager.Instance.zombieList)
+        // Create a new list to store the zombies to be removed
+        List<BasicZombie> zombiesToRemove = new List<BasicZombie>();
+
+        foreach (BasicZombie zombie in _gameManager.zombieList)
         {
             zombie.ResetThisZombie();
-            GameManager.Instance.zombieList.Remove(zombie);
+            zombiesToRemove.Add(zombie); // Add zombie to be removed later
+        }
+
+        // Now remove all the zombies that need to be removed
+        foreach (BasicZombie zombie in zombiesToRemove)
+        {
+            _gameManager.zombieList.Remove(zombie);
         }
     }
 }

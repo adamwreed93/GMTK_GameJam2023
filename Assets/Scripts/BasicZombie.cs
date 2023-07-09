@@ -39,16 +39,21 @@ public class BasicZombie : MonoBehaviour
 
     private bool _addedToGameManagerList;
 
+    private GameManager _gameManager;
+    private UIManager _uiManager;
+
 
     private void Start()
     {
+        _gameManager = GameManager.Instance;
+        _uiManager = UIManager.Instance;
         _audioSource = GetComponent<AudioSource>();
     }
 
 
     private void Update()
     {
-        if(!UIManager.Instance.isDaytime && _enemyState != state.alert && _enemyState != state.combat)
+        if(!_uiManager.isDaytime && _enemyState != state.alert && _enemyState != state.combat)
         {
             _enemyState = state.aggressive;
         }
@@ -122,7 +127,7 @@ public class BasicZombie : MonoBehaviour
         if (_addedToGameManagerList == false)
         {
             _addedToGameManagerList = true;
-            GameManager.Instance.AddZombieToHostilesList(this);
+            _gameManager.AddZombieToHostilesList(this);
         }
 
         if (_alertCanMove)
@@ -157,7 +162,7 @@ public class BasicZombie : MonoBehaviour
             if (_addedToGameManagerList == false)
             {
                 _addedToGameManagerList = true;
-                GameManager.Instance.AddZombieToHostilesList(this);
+                _gameManager.AddZombieToHostilesList(this);
             }
 
             Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
@@ -189,51 +194,54 @@ public class BasicZombie : MonoBehaviour
     /// </summary>
     private void AggressiveState()
     {
-        _target = UIManager.Instance.playerObject; //Finds and targets the player.
-        
-        if (_addedToGameManagerList == false)
+        if(_gameManager.isZombified == false)
         {
-            _addedToGameManagerList = true;
-            GameManager.Instance.AddZombieToHostilesList(this);
-        }
+            _target = _uiManager.playerObject; //Finds and targets the player.
 
-        Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
-
-        RaycastHit hit;
-
-        // Cast a ray forward from the GameObject. 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 5f))
-        {
-            if (hit.collider.gameObject.tag != "Player")
+            if (_addedToGameManagerList == false)
             {
-                RaycastHit hitLeft;
-                RaycastHit hitRight;
+                _addedToGameManagerList = true;
+                _gameManager.AddZombieToHostilesList(this);
+            }
 
-                // Cast rays to the left and right.
-                bool isHitLeft = Physics.Raycast(transform.position, -transform.right, out hitLeft, 5f);
-                bool isHitRight = Physics.Raycast(transform.position, transform.right, out hitRight, 5f);
+            Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
 
-                //If there is no obstacle to the left, move left.
-                if (!isHitLeft)
+            RaycastHit hit;
+
+            // Cast a ray forward from the GameObject. 
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 5f))
+            {
+                if (hit.collider.gameObject.tag != "Player")
                 {
-                    direction = -transform.right;
-                }
-                //If there is no obstacle to the right, move right.
-                else if (!isHitRight)
-                {
-                    direction = transform.right;
-                }
-                else
-                {
-                    //If there's an obstacle in both directions, move in the direction of the least resistance.
-                    //Compare the distances to the obstacles to the left and right and move towards the farthest one.
-                    direction = (hitLeft.distance < hitRight.distance) ? transform.right : -transform.right;
+                    RaycastHit hitLeft;
+                    RaycastHit hitRight;
+
+                    // Cast rays to the left and right.
+                    bool isHitLeft = Physics.Raycast(transform.position, -transform.right, out hitLeft, 5f);
+                    bool isHitRight = Physics.Raycast(transform.position, transform.right, out hitRight, 5f);
+
+                    //If there is no obstacle to the left, move left.
+                    if (!isHitLeft)
+                    {
+                        direction = -transform.right;
+                    }
+                    //If there is no obstacle to the right, move right.
+                    else if (!isHitRight)
+                    {
+                        direction = transform.right;
+                    }
+                    else
+                    {
+                        //If there's an obstacle in both directions, move in the direction of the least resistance.
+                        //Compare the distances to the obstacles to the left and right and move towards the farthest one.
+                        direction = (hitLeft.distance < hitRight.distance) ? transform.right : -transform.right;
+                    }
                 }
             }
-        }
 
-        RotateTowardsTarget(); //Rotate towards target.
-        transform.Translate(direction * _movementSpeed * Time.deltaTime, Space.World); //Move this Zombie.
+            RotateTowardsTarget(); //Rotate towards target.
+            transform.Translate(direction * _movementSpeed * Time.deltaTime, Space.World); //Move this Zombie.
+        } 
     }
 
 
@@ -269,7 +277,7 @@ public class BasicZombie : MonoBehaviour
         _enemyHealth -= damage;
 
         // Apply knockback
-        Vector3 knockbackDirection = (transform.position - UIManager.Instance.playerObject.position).normalized;
+        Vector3 knockbackDirection = (transform.position - _uiManager.playerObject.position).normalized;
         float knockbackDistance = 2f; // Adjust as needed for desired knockback distance
         transform.position += knockbackDirection * knockbackDistance;
 
@@ -293,6 +301,6 @@ public class BasicZombie : MonoBehaviour
     public void ResetThisZombie()
     {
         _target = null;
-       _enemyState = 0;
+        _enemyState = 0;
     }
 }

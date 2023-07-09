@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public bool isZombified;
+
     public List<BasicZombie> zombieList = new List<BasicZombie>();
 
     public void AddZombieToHostilesList(BasicZombie zombie)
