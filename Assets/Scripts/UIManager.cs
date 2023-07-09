@@ -131,6 +131,7 @@ public class UIManager : MonoBehaviour
 
     public void BeginNewDay()
     {
+        _fadeInAnimator.SetTrigger("FadeIn");
         _directionalSunLight.color = new Color32(253, 163, 170, 255); //Evening & Dawn
         _moon.SetActive(false);
         _sunImage.SetActive(true);
