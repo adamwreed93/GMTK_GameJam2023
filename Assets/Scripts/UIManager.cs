@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _currentDayText;
     [SerializeField] private TextMeshProUGUI _countdownTimerText;
+    [SerializeField] private TextMeshProUGUI _waveEnemiesRemainingText;
     [SerializeField] private Animator _nightTextAnimator;
     [SerializeField] private Slider _sunTimer; //The Day Timer which is also a slider
     [SerializeField] private GameObject _sunImage;
@@ -49,6 +50,7 @@ public class UIManager : MonoBehaviour
     private bool _isCountdownStarted = false;
     private float _countdownDuration = 11f; //Duration of the countdown in seconds
     private float _countdownTimer = 0f; //Current countdown timer value
+    private int _currentDay = 1;
 
     public bool isDaytime = true; //Game starts at daytime.
 
@@ -70,7 +72,7 @@ public class UIManager : MonoBehaviour
         {
             _sunTimer.value += _increment * Time.deltaTime;
 
-            if (_sunTimer.value >= 9.5f)
+            if (_sunTimer.value <= 3 || _sunTimer.value >= 9.5f)
             {
                 _directionalSunLight.color = new Color32(253, 163, 170, 255); //Evening & Dawn
             }
@@ -107,18 +109,35 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(1f); //Wait for 1 second before the next iteration
         }
 
-        //Play "Night Approaches..." text animation here! (AR)
-
         isDaytime = false;
         _nightTextAnimator.SetTrigger("FadeInNightText");
         _directionalSunLight.color = new Color32(70, 54, 215, 255); //Night
         _countdownTimerText.gameObject.SetActive(false);
         _moon.SetActive(true);
         _sunTimer.value = 0;
+
+        GameManager.Instance.SpawnWave();
     }
 
     public void InjuredBloodyScreen(bool isActive)
     {
         _injuredBloodyScreen.SetActive(isActive);
+    }
+
+    public void BeginNewDay()
+    {
+        _directionalSunLight.color = new Color32(253, 163, 170, 255); //Evening & Dawn
+        _moon.SetActive(false);
+        _sunImage.SetActive(true);
+        _clockBubbles.SetActive(true);
+        _dayTitleText.SetActive(true);
+        _currentDay++;
+        _currentDayText.text = _currentDay.ToString();
+        isDaytime = true;
+    }
+
+    public void UpdateWaveEnemiesRemainingText()
+    {
+        _waveEnemiesRemainingText.text = GameManager.Instance.zombieWaveList.Count.ToString();
     }
 }

@@ -278,7 +278,7 @@ public class BasicZombie : MonoBehaviour
 
         // Apply knockback
         Vector3 knockbackDirection = (transform.position - _uiManager.playerObject.position).normalized;
-        float knockbackDistance = 2f; // Adjust as needed for desired knockback distance
+        float knockbackDistance = 1f; // Adjust as needed for desired knockback distance
         transform.position += knockbackDirection * knockbackDistance;
 
         _animator.SetTrigger("GotHurt");
@@ -293,6 +293,8 @@ public class BasicZombie : MonoBehaviour
             _bloodExplosionContainer.position = transform.position;
             Instantiate(_bloodExplosionPrefab, _bloodExplosionContainer);
             _animator.SetTrigger("OnDeath");
+            _gameManager.RemoveZombieFromWaveList(this.gameObject);
+            _gameManager.CheckIfWaveIsOver();
             Destroy(transform.parent.gameObject, .5f);
 
         }

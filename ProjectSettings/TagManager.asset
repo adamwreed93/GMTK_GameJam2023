@@ -10,6 +10,7 @@ TagManager:
   - Scientist
   - Bullet
   - ZombiePlayer
+  - ZombiePlayerHands
   layers:
   - Default
   - TransparentFX
