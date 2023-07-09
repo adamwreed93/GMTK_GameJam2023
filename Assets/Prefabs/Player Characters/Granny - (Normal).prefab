@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 429174136}
   - component: {fileID: 429174139}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Living Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381944065014823331}
   m_Layer: 0
-  m_Name: GFX
+  m_Name: Living GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1151,7 +1151,7 @@ GameObject:
   - component: {fileID: 1641088597}
   - component: {fileID: 1641088596}
   m_Layer: 0
-  m_Name: Player (Granny - Normal)
+  m_Name: Granny - (Normal)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1211,6 +1211,15 @@ MonoBehaviour:
   _accelerationTime: 0.2
   _staminaSlider: {fileID: 0}
   _staminaFill: {fileID: 0}
+  _currentPlayerHealth: 100
+  _maxPlayerHealth: 100
+  _zombifiedGrannyPrefab: {fileID: 609322869043287314, guid: a31a98ee548921f4c8f45d453b716c97,
+    type: 3}
+  _livingGrannyGFX: {fileID: 242337827364152062}
+  _zombifiedGrannyGFX: {fileID: 0}
+  _livingGrannyCamera: {fileID: 429174137}
+  _zombifiedGrannyCamera: {fileID: 0}
+  isZombified: 0
 --- !u!1 &6844689577499547893
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Light _directionalSunLight;
     [SerializeField] private GameObject _injuredBloodyScreen;
 
+    public Slider staminaSlider; // The Stamina Meter which is also a slider
+    public Image staminaFill; // The fill component of the slider
+
     private float _increment; //The value by which _sunTimer increases every second
     private bool _isCountdownStarted = false;
     private float _countdownDuration = 11f; //Duration of the countdown in seconds

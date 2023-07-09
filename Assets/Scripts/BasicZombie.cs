@@ -37,6 +37,8 @@ public class BasicZombie : MonoBehaviour
 
     [SerializeField] private int _enemyHealth;
 
+    private bool _addedToGameManagerList;
+
 
     private void Start()
     {
@@ -117,6 +119,12 @@ public class BasicZombie : MonoBehaviour
     /// </summary>
     private IEnumerator AlertStateMovement()
     {
+        if (_addedToGameManagerList == false)
+        {
+            _addedToGameManagerList = true;
+            GameManager.Instance.AddZombieToHostilesList(this);
+        }
+
         if (_alertCanMove)
         {
             _alertCanMove = false;
@@ -144,26 +152,35 @@ public class BasicZombie : MonoBehaviour
     /// </summary>
     private void CombatState() 
     {
-        Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
-        RotateTowardsTarget(); //Rotate towards target.
-        float distance = Vector3.Distance(transform.position, _target.position); //Calculate distance between this Zombie and its Target.
-
-        // If the target is out of attack range, move towards it
-        if (distance > _attackRange)
+        if (_target != null)
         {
-            transform.Translate(direction * _movementSpeed *Time.deltaTime, Space.World); //Move this Zombie.
-        }
-        // If the target is within attack range, attack it
-        else
-        {
-            if (Time.time > _nextAttackTime) //Attack Cooldown.
+            if (_addedToGameManagerList == false)
             {
-                _animator.SetTrigger("BasicAttack");
-                Random.InitState(System.DateTime.Now.Millisecond);
-                _audioSource.PlayOneShot(_attackAudioClips[Random.Range(0, 6)]);
-                _nextAttackTime = Time.time + 2f; // Adds 2-second delay between attacks.
+                _addedToGameManagerList = true;
+                GameManager.Instance.AddZombieToHostilesList(this);
             }
-        }
+
+            Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
+            RotateTowardsTarget(); //Rotate towards target.
+            float distance = Vector3.Distance(transform.position, _target.position); //Calculate distance between this Zombie and its Target.
+
+            // If the target is out of attack range, move towards it
+            if (distance > _attackRange)
+            {
+                transform.Translate(direction * _movementSpeed * Time.deltaTime, Space.World); //Move this Zombie.
+            }
+            // If the target is within attack range, attack it
+            else
+            {
+                if (Time.time > _nextAttackTime) //Attack Cooldown.
+                {
+                    _animator.SetTrigger("BasicAttack");
+                    Random.InitState(System.DateTime.Now.Millisecond);
+                    _audioSource.PlayOneShot(_attackAudioClips[Random.Range(0, 6)]);
+                    _nextAttackTime = Time.time + 2f; // Adds 2-second delay between attacks.
+                }
+            }
+        }    
     }
 
 
@@ -173,6 +190,12 @@ public class BasicZombie : MonoBehaviour
     private void AggressiveState()
     {
         _target = UIManager.Instance.playerObject; //Finds and targets the player.
+        
+        if (_addedToGameManagerList == false)
+        {
+            _addedToGameManagerList = true;
+            GameManager.Instance.AddZombieToHostilesList(this);
+        }
 
         Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
 
@@ -265,5 +288,11 @@ public class BasicZombie : MonoBehaviour
             Destroy(transform.parent.gameObject, .5f);
 
         }
+    }
+
+    public void ResetThisZombie()
+    {
+        _target = null;
+       _enemyState = 0;
     }
 }

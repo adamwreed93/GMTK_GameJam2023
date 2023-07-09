@@ -34,17 +34,26 @@ public class Player : MonoBehaviour
     [SerializeField] private int _currentPlayerHealth;
     [SerializeField] private int _maxPlayerHealth = 100;
 
+    //Zombification
+    [SerializeField] private GameObject _zombifiedGrannyPrefab;
+    [SerializeField] private GameObject _livingGrannyGFX;
+    [SerializeField] private GameObject _zombifiedGrannyGFX;
+    [SerializeField] private GameObject _livingGrannyCamera;
+    [SerializeField] private GameObject _zombifiedGrannyCamera;
+
+    public bool isZombified;
 
 
     void Start()
     {
         _currentPlayerHealth = _maxPlayerHealth;
-
+        _staminaFill = UIManager.Instance.staminaFill;
+        _staminaSlider = UIManager.Instance.staminaSlider;
 
         _defaultSpeed = _speed;
         _targetSpeed = _speed;
         _currentSpeed = _speed;
-        //transform.position = new Vector3(0, -0.1f, 0);
+
         _plane = new Plane(Vector3.up, Vector3.zero);
 
         _controller = GetComponent<CharacterController>();
@@ -54,9 +63,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Gravity();
+        if(!isZombified)
+        {
+            RotateGFXToMouse();
+        }
+
         Movement();
-        RotateGFXToMouse();
+        Gravity();
     }
 
     private void Gravity()
@@ -147,14 +160,71 @@ public class Player : MonoBehaviour
     {
         _currentPlayerHealth -= damage;
 
-        if(_currentPlayerHealth <= 25)
+        if (_currentPlayerHealth <= 0)
+        {
+            if(!isZombified)
+            {
+                ZombifyGranny();
+                return;
+            }
+            //Game Over!
+        }
+        else if (_currentPlayerHealth <= 25 && _currentPlayerHealth > 0)
         {
             UIManager.Instance.InjuredBloodyScreen(true);
         }
-        else if(_currentPlayerHealth <= 0)
+    }
+
+    private void ZombifyGranny()
+    {
+        StartCoroutine(ZombieStartUpProtocol());
+
+        _livingGrannyGFX.SetActive(false);
+        _zombifiedGrannyGFX.SetActive(true);
+        isZombified = true;
+        _currentPlayerHealth = 100;
+    }
+
+    private IEnumerator ZombieStartUpProtocol()
+    {
+        UIManager.Instance.InjuredBloodyScreen(false);
+
+        // Get the start position for the "living" camera
+        Vector3 cameraStartPosition = _livingGrannyCamera.transform.position;
+
+        // Calculate target position for the "living" camera
+        Vector3 cameraEndPosition = _zombifiedGrannyCamera.transform.position;
+
+        // Duration for camera to move from start to end position
+        float duration = 2.0f;
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
         {
-            //Play death animation
-            //Transition Player
+            // Compute how far along the duration we are, between 0 and 1
+            float t = elapsed / duration;
+
+            // Move the "living" camera towards the zombified camera's position
+            _livingGrannyCamera.transform.position = Vector3.Lerp(cameraStartPosition, cameraEndPosition, t);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // At the end of the movement, set the "living" camera exactly at the target position
+        _livingGrannyCamera.transform.position = cameraEndPosition;
+
+        // Switch cameras
+        _livingGrannyCamera.SetActive(false);
+        _zombifiedGrannyCamera.SetActive(true);
+
+        // Change the tag of the object this script is attached to
+        this.gameObject.tag = "ZombiePlayer";
+
+        foreach(BasicZombie zombie in GameManager.Instance.zombieList)
+        {
+            zombie.ResetThisZombie();
+            GameManager.Instance.zombieList.Remove(zombie);
         }
     }
 }
