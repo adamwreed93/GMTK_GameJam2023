@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour
 
     public void SpawnWave()
     {
+        StartCoroutine(SpawnEnemies());
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
         _currentWaveNumber++;
         _numberOfZombiesToSpawn *= _currentWaveNumber;
 
@@ -57,9 +62,18 @@ public class GameManager : MonoBehaviour
         {
             GameObject zombie = Instantiate(_zombiePrefab, _enemyContainer.transform);
             AddZombieToWaveList(zombie);
+
+            // move zombie to a random position between -150 and 150 X, 200 and -250 Z. Y stays the same.
+            float randomX = Random.Range(-150, 150);
+            float randomZ = Random.Range(-250, 200);
+            float currentY = zombie.transform.position.y;
+            zombie.transform.position = new Vector3(randomX, currentY, randomZ);
+
+            yield return new WaitForSeconds(1);
         }
         UIManager.Instance.UpdateWaveEnemiesRemainingText();
     }
+
 
     public void AddZombieToWaveList(GameObject zombie)
     {

@@ -115,6 +115,7 @@ public class UIManager : MonoBehaviour
         _countdownTimerText.gameObject.SetActive(false);
         _moon.SetActive(true);
         _sunTimer.value = 0;
+        _waveEnemiesRemainingText.gameObject.SetActive(true);
 
         GameManager.Instance.SpawnWave();
     }

@@ -39,21 +39,16 @@ public class BasicZombie : MonoBehaviour
 
     private bool _addedToGameManagerList;
 
-    private GameManager _gameManager;
-    private UIManager _uiManager;
-
 
     private void Start()
     {
-        _gameManager = GameManager.Instance;
-        _uiManager = UIManager.Instance;
         _audioSource = GetComponent<AudioSource>();
     }
 
 
     private void Update()
     {
-        if(!_uiManager.isDaytime && _enemyState != state.alert && _enemyState != state.combat)
+        if(!UIManager.Instance.isDaytime && _enemyState != state.alert && _enemyState != state.combat)
         {
             _enemyState = state.aggressive;
         }
@@ -127,7 +122,7 @@ public class BasicZombie : MonoBehaviour
         if (_addedToGameManagerList == false)
         {
             _addedToGameManagerList = true;
-            _gameManager.AddZombieToHostilesList(this);
+            GameManager.Instance.AddZombieToHostilesList(this);
         }
 
         if (_alertCanMove)
@@ -162,7 +157,7 @@ public class BasicZombie : MonoBehaviour
             if (_addedToGameManagerList == false)
             {
                 _addedToGameManagerList = true;
-                _gameManager.AddZombieToHostilesList(this);
+                GameManager.Instance.AddZombieToHostilesList(this);
             }
 
             Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
@@ -194,14 +189,14 @@ public class BasicZombie : MonoBehaviour
     /// </summary>
     private void AggressiveState()
     {
-        if(_gameManager.isZombified == false)
+        if(GameManager.Instance.isZombified == false)
         {
-            _target = _uiManager.playerObject; //Finds and targets the player.
+            _target = UIManager.Instance.playerObject; //Finds and targets the player.
 
             if (_addedToGameManagerList == false)
             {
                 _addedToGameManagerList = true;
-                _gameManager.AddZombieToHostilesList(this);
+                GameManager.Instance.AddZombieToHostilesList(this);
             }
 
             Vector3 direction = (_target.position - transform.position).normalized; //Calculate direction to move.
@@ -277,7 +272,7 @@ public class BasicZombie : MonoBehaviour
         _enemyHealth -= damage;
 
         // Apply knockback
-        Vector3 knockbackDirection = (transform.position - _uiManager.playerObject.position).normalized;
+        Vector3 knockbackDirection = (transform.position - UIManager.Instance.playerObject.position).normalized;
         float knockbackDistance = 1f; // Adjust as needed for desired knockback distance
         transform.position += knockbackDirection * knockbackDistance;
 
@@ -293,8 +288,8 @@ public class BasicZombie : MonoBehaviour
             _bloodExplosionContainer.position = transform.position;
             Instantiate(_bloodExplosionPrefab, _bloodExplosionContainer);
             _animator.SetTrigger("OnDeath");
-            _gameManager.RemoveZombieFromWaveList(this.gameObject);
-            _gameManager.CheckIfWaveIsOver();
+            GameManager.Instance.RemoveZombieFromWaveList(this.gameObject);
+            GameManager.Instance.CheckIfWaveIsOver();
             Destroy(transform.parent.gameObject, .5f);
 
         }
