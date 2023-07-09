@@ -12,9 +12,16 @@ public class Gun : MonoBehaviour
 
     private float _lastFireTime = 0f;
 
+    private GameManager _gameManager;
+
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+    }
+
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && _gameManager.isZombified == false)
         {
             Fire();
         }

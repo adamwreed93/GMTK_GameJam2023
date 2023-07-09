@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,10 @@ public class Player : MonoBehaviour
 {
     private CharacterController _controller;
 
+    [SerializeField] private Animator _animator;
+
     [SerializeField] private float _gravity = -9.81f;
 
-    [SerializeField] private GameObject _gFXObject; //The 3D model or object that will rotate to face the mouse.
     [SerializeField] private float _speed; //The speed at which the player moves.
     [SerializeField] private float _runMultiplier = 2.5f; //Multiplier applied to speed when the player is running.
     [SerializeField] private float _accelerationTime = 0.2f; //Time it takes to reach full speed.
@@ -41,6 +43,13 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _livingGrannyCamera;
     [SerializeField] private GameObject _zombifiedGrannyCamera;
 
+    [SerializeField] private Collider _leftHand;
+    [SerializeField] private Collider _rightHand;
+
+    private float _xRotation = 0f;
+    public float _mouseSensitivity = 100f;
+    public float _zombieSpeed = 2f;
+
     private GameManager _gameManager;
     private UIManager _uiManager;
 
@@ -70,10 +79,21 @@ public class Player : MonoBehaviour
     {
         if(!isZombified)
         {
-            RotateGFXToMouse();
+            RotateLivingGFXToMouse();
+            LivingMovement();
+        }
+        else
+        {
+            RotateZombifiedGFXToMouse();
+            ZombifiedMovement();
+
+            if(Input.GetButtonDown("Fire1"))
+            {
+                ZombieAttack();
+            }
         }
 
-        Movement();
+        
         Gravity();
     }
 
@@ -90,7 +110,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Movement()
+    private void LivingMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -133,24 +153,61 @@ public class Player : MonoBehaviour
         transform.position = clampedPosition;
     }
 
-    IEnumerator SprintCooldown()
+    private void ZombifiedMovement()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 moveDirection = transform.TransformDirection(new Vector3(horizontalInput, 0, verticalInput));
+
+        if (!_controller.isGrounded)
+        {
+            moveDirection.y = _fallSpeed;
+        }
+
+        _controller.Move(moveDirection * (_zombieSpeed * Time.deltaTime));
+
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -500, 500);
+        clampedPosition.z = Mathf.Clamp(clampedPosition.z, -500, 500);
+        transform.position = clampedPosition;
+    }
+
+        IEnumerator SprintCooldown()
     {
         yield return new WaitForSeconds(5);
         _canSprint = true;
     }
 
 
-    void RotateGFXToMouse()
+    void RotateLivingGFXToMouse()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (_plane.Raycast(ray, out float enter))
         {
             Vector3 hitPoint = ray.GetPoint(enter);
-            Vector3 direction = hitPoint - _gFXObject.transform.position;
+            Vector3 direction = hitPoint - _livingGrannyGFX.transform.position;
             direction.y = 0;
             Quaternion rotation = Quaternion.LookRotation(direction);
-            _gFXObject.transform.rotation = rotation;
+            _livingGrannyGFX.transform.rotation = rotation;
         }
+    }
+
+    void RotateZombifiedGFXToMouse()
+    {
+        // Make the mouse cursor invisible and keep it centered
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        // Rotate camera based on mouse movement
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        _xRotation -= mouseY * _mouseSensitivity;
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+
+        _zombifiedGrannyCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+        transform.Rotate(Vector3.up * mouseX * _mouseSensitivity);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -193,7 +250,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator ZombieStartUpProtocol()
     {
-        _uiManager.InjuredBloodyScreen(false);
+        
 
         // Get the start position for the "living" camera
         Vector3 cameraStartPosition = _livingGrannyCamera.transform.position;
@@ -241,5 +298,17 @@ public class Player : MonoBehaviour
         {
             _gameManager.zombieList.Remove(zombie);
         }
+
+        _uiManager.InjuredBloodyScreen(false);
+    }
+
+    private IEnumerator ZombieAttack()
+    {
+        _leftHand.enabled = true;
+        _rightHand.enabled = true;
+        _animator.SetTrigger("ZombieGrannyAttack");
+        yield return new WaitForSeconds(.5f);
+        _leftHand.enabled = false;
+        _rightHand.enabled = false;
     }
 }
