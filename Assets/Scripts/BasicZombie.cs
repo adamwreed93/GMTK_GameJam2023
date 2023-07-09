@@ -21,11 +21,14 @@ public class BasicZombie : MonoBehaviour
     [SerializeField] private float _attackRange = 4f;
     [SerializeField] private float _nextAttackTime;
     [SerializeField] private float _movementSpeed;
+    [SerializeField] private float _rotationSpeed;
 
     private bool _idleCanMove = true;
     private bool _alertCanMove = true;
 
     [SerializeField] private Transform _idleTargetPoint;
+
+    [SerializeField] private int _enemyHealth;
 
 
     private void Update()
@@ -76,6 +79,7 @@ public class BasicZombie : MonoBehaviour
             _idleCanMove = false;
 
             // Create a new point and position it
+            Random.InitState(System.DateTime.Now.Millisecond);
             _idleTargetPoint.position = new Vector3(Random.Range(3, 7) + _idleTargetPoint.position.x, transform.position.y, Random.Range(3, 7) + transform.position.z);
 
             _target = _idleTargetPoint;
@@ -104,6 +108,7 @@ public class BasicZombie : MonoBehaviour
         {
             _alertCanMove = false;
 
+            Random.InitState(System.DateTime.Now.Millisecond);
             int timeTillChoice = Random.Range(3, 5);
             yield return new WaitForSeconds(timeTillChoice);
             int chanceToTurn = Random.Range(1, 10);
@@ -203,12 +208,31 @@ public class BasicZombie : MonoBehaviour
 
     private void RotateTowardsTarget()
     {
-        //Calculate rotation towards target.
+        // Calculate rotation towards target.
         Vector3 direction = (_target.position - transform.position).normalized;
         direction.y = 0; // Forces the direction vector's Y value to be 0.
 
         Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime); //Lerp rotation.
+        // Lerp rotation at a speed of rotationSpeed.
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, _rotationSpeed * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.transform.tag == "Bullet")
+        {
+            Destroy(other.gameObject);  
+            TakeDamage(1);
+        }
+    }
+    private void TakeDamage(int damage)
+    {
+        _enemyHealth -= damage;
+
+        if (_enemyHealth <= 0)
+        {
+            Destroy(transform.parent.gameObject);
+        }
     }
 }

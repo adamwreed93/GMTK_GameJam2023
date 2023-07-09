@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2604231301961874607}
   m_Layer: 0
   m_Name: Left Hand
-  m_TagString: Untagged
+  m_TagString: BasicZombieHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 4561870177206253348}
   m_Layer: 0
   m_Name: Right Hand
-  m_TagString: Untagged
+  m_TagString: BasicZombieHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -941,7 +941,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 3
 --- !u!136 &1358275942807556514
 CapsuleCollider:
@@ -953,10 +953,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5680592
+  m_Radius: 0.78932846
   m_Height: 2.2144613
   m_Direction: 1
-  m_Center: {x: -0.020983815, y: -0.60723066, z: -0.17469406}
+  m_Center: {x: -0.012616396, y: -0.60723066, z: -0.17469406}
 --- !u!114 &5861741226330751249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,7 +977,9 @@ MonoBehaviour:
   _attackRange: 4
   _nextAttackTime: 0
   _movementSpeed: 10
+  _rotationSpeed: 10
   _idleTargetPoint: {fileID: 0}
+  _enemyHealth: 3
 --- !u!1 &3766400029438137826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1005,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766400029438137826}
-  m_LocalRotation: {x: 0.024455436, y: -0.7066838, z: -0.024455428, w: 0.7066838}
+  m_LocalRotation: {x: -0.09142621, y: -0.7011714, z: 0.09142625, w: 0.70117134}
   m_LocalPosition: {x: 0, y: 0.007, z: -0.17}
   m_LocalScale: {x: 1.2159, y: 1.1042744, z: 1.1009}
   m_ConstrainProportionsScale: 0
@@ -1016,7 +1018,7 @@ Transform:
   - {fileID: 3149602643719014896}
   m_Father: {fileID: 8067416028654957748}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: -3.964}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 14.858}
 --- !u!33 &3766400029438137822
 MeshFilter:
   m_ObjectHideFlags: 0

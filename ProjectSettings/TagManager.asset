@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - BasicZombie
+  - BasicZombieHands
+  - Survivor
+  - Scientist
+  - Bullet
   layers:
   - Default
   - TransparentFX
