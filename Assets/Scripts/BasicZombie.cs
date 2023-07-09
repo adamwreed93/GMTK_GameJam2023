@@ -12,6 +12,9 @@ public class BasicZombie : MonoBehaviour
         aggressive //At night the enemy waves will be aggressive and be drawn to the player.
     }
 
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _attackAudioClips;
+
     [SerializeField] private state _enemyState;
 
     [SerializeField] private Animator _animator;
@@ -29,6 +32,12 @@ public class BasicZombie : MonoBehaviour
     [SerializeField] private Transform _idleTargetPoint;
 
     [SerializeField] private int _enemyHealth;
+
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
 
     private void Update()
@@ -146,6 +155,7 @@ public class BasicZombie : MonoBehaviour
             if (Time.time > _nextAttackTime) //Attack Cooldown.
             {
                 _animator.SetTrigger("BasicAttack");
+                _audioSource.PlayOneShot(_attackAudioClips[Random.Range(0, 6)]);
                 _nextAttackTime = Time.time + 2f; // Adds 2-second delay between attacks.
             }
         }
