@@ -31,11 +31,16 @@ public class Player : MonoBehaviour
     private Color _lowStaminaColor = new Color(245f / 255f, 35f / 255f, 0f); // Color when stamina is .3 or below
     private Color _highStaminaColor = new Color(0f, 245f / 255f, 57f / 255f); // Color when stamina is above .3
 
+    [SerializeField] private int _currentPlayerHealth;
+    [SerializeField] private int _maxPlayerHealth = 100;
 
 
 
     void Start()
     {
+        _currentPlayerHealth = _maxPlayerHealth;
+
+
         _defaultSpeed = _speed;
         _targetSpeed = _speed;
         _currentSpeed = _speed;
@@ -127,6 +132,29 @@ public class Player : MonoBehaviour
             direction.y = 0;
             Quaternion rotation = Quaternion.LookRotation(direction);
             _gFXObject.transform.rotation = rotation;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "BasicZombieHands")
+        {
+            TakeDamage(25);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        _currentPlayerHealth -= damage;
+
+        if(_currentPlayerHealth <= 25)
+        {
+            UIManager.Instance.InjuredBloodyScreen(true);
+        }
+        else if(_currentPlayerHealth <= 0)
+        {
+            //Play death animation
+            //Transition Player
         }
     }
 }

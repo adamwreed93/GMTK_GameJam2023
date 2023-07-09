@@ -1175,13 +1175,14 @@ GameObject:
   - component: {fileID: 330190746}
   - component: {fileID: 330190748}
   - component: {fileID: 330190747}
+  - component: {fileID: 330190749}
   m_Layer: 5
   m_Name: Injured (Bloody Screen)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &330190746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1215,7 +1216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -1240,6 +1241,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330190745}
   m_CullTransparentMesh: 1
+--- !u!95 &330190749
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330190745}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 75c423130fe45f84aa28e0cd1876d1fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &334952355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5515,7 +5536,7 @@ PrefabInstance:
     - target: {fileID: 6844689577397374090, guid: 72eb5ebc561a54b47a941184e1ebc4d9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -141
+      value: -142.2
       objectReference: {fileID: 0}
     - target: {fileID: 6844689577397374090, guid: 72eb5ebc561a54b47a941184e1ebc4d9,
         type: 3}
@@ -5765,6 +5786,7 @@ MonoBehaviour:
   _dayTitleText: {fileID: 1141684298}
   _moon: {fileID: 1049881158}
   _directionalSunLight: {fileID: 1849898611}
+  _injuredBloodyScreen: {fileID: 330190745}
   isDaytime: 1
 --- !u!4 &1638031990 stripped
 Transform:

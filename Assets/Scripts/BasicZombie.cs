@@ -244,9 +244,19 @@ public class BasicZombie : MonoBehaviour
     private void TakeDamage(int damage)
     {
         _enemyHealth -= damage;
+
+        // Apply knockback
+        Vector3 knockbackDirection = (transform.position - UIManager.Instance.playerObject.position).normalized;
+        float knockbackDistance = 2f; // Adjust as needed for desired knockback distance
+        transform.position += knockbackDirection * knockbackDistance;
+
         _animator.SetTrigger("GotHurt");
+
         Random.InitState(System.DateTime.Now.Millisecond);
         _audioSource.PlayOneShot(_hurtAudioClips[Random.Range(0, 6)]);
+
+        
+
         if (_enemyHealth <= 0)
         {
             _bloodExplosionContainer.position = transform.position;

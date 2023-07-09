@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _dayTitleText;
     [SerializeField] private GameObject _moon;
     [SerializeField] private Light _directionalSunLight;
+    [SerializeField] private GameObject _injuredBloodyScreen;
 
     private float _increment; //The value by which _sunTimer increases every second
     private bool _isCountdownStarted = false;
@@ -110,5 +112,10 @@ public class UIManager : MonoBehaviour
         _countdownTimerText.gameObject.SetActive(false);
         _moon.SetActive(true);
         _sunTimer.value = 0;
+    }
+
+    public void InjuredBloodyScreen(bool isActive)
+    {
+        _injuredBloodyScreen.SetActive(isActive);
     }
 }
