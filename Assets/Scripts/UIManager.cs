@@ -35,6 +35,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _countdownTimerText;
     [SerializeField] private TextMeshProUGUI _waveEnemiesRemainingText;
     [SerializeField] private Animator _nightTextAnimator;
+    [SerializeField] private Animator _fadeInAnimator;
+    [SerializeField] private Animator _injuredBloodyScreenAnimator;
     [SerializeField] private Slider _sunTimer; //The Day Timer which is also a slider
     [SerializeField] private GameObject _sunImage;
     [SerializeField] private GameObject _clockBubbles;
@@ -58,6 +60,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _increment = 12.0f / (5.0f * 60.0f); //Calculate the increment to reach 12 in 5 minutes
+        _fadeInAnimator.SetTrigger("FadeIn");
     }
 
     void Update()
@@ -110,6 +113,7 @@ public class UIManager : MonoBehaviour
         }
 
         isDaytime = false;
+        _fadeInAnimator.SetTrigger("FadeIn");
         _nightTextAnimator.SetTrigger("FadeInNightText");
         _directionalSunLight.color = new Color32(70, 54, 215, 255); //Night
         _countdownTimerText.gameObject.SetActive(false);
@@ -122,11 +126,12 @@ public class UIManager : MonoBehaviour
 
     public void InjuredBloodyScreen(bool isActive)
     {
-        _injuredBloodyScreen.SetActive(isActive);
+        _injuredBloodyScreenAnimator.SetBool("IsInjured", isActive);
     }
 
     public void BeginNewDay()
     {
+        _fadeInAnimator.SetTrigger("FadeIn");
         _directionalSunLight.color = new Color32(253, 163, 170, 255); //Evening & Dawn
         _moon.SetActive(false);
         _sunImage.SetActive(true);

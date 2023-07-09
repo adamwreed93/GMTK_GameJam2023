@@ -3664,9 +3664,10 @@ GameObject:
   - component: {fileID: 7861108610829389865}
   - component: {fileID: 5911906629441594674}
   - component: {fileID: 3531691273036105252}
+  - component: {fileID: 821100547}
   m_Layer: 0
   m_Name: Right Hand
-  m_TagString: Untagged
+  m_TagString: ZombiePlayerHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3736,6 +3737,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &821100547
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091140501533680516}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.95066786
+  m_Center: {x: -0.00000047997673, y: 0, z: -0.45066813}
 --- !u!1 &8380092409224932184
 GameObject:
   m_ObjectHideFlags: 0
@@ -4027,9 +4041,10 @@ GameObject:
   - component: {fileID: 8924312549432105087}
   - component: {fileID: 1100585459999645477}
   - component: {fileID: 7228686953107989148}
+  - component: {fileID: 383619710}
   m_Layer: 0
   m_Name: Left Hand
-  m_TagString: Untagged
+  m_TagString: ZombiePlayerHands
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4099,6 +4114,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &383619710
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648225769763854820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 1.0035586
+  m_Center: {x: 0.000000103459676, y: 0, z: -0.5035589}
 --- !u!1 &8751296661374924485
 GameObject:
   m_ObjectHideFlags: 0
@@ -4434,6 +4462,8 @@ MonoBehaviour:
   _zombifiedGrannyGFX: {fileID: 1225535914924924916}
   _livingGrannyCamera: {fileID: 2335467290286477301}
   _zombifiedGrannyCamera: {fileID: 1323229892970532989}
+  _leftHand: {fileID: 383619710}
+  _rightHand: {fileID: 821100547}
   _mouseSensitivity: 3
   _zombieSpeed: 15
   isZombified: 0

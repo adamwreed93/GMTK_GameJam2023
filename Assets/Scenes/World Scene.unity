@@ -965,7 +965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &330190746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -999,7 +999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -1152,25 +1152,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365685195}
   m_CullTransparentMesh: 1
---- !u!1 &383619706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8648225769763854820, guid: 8cbfb88d474fbf3409d5133734b244c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2335467289152524705}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &383619710
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383619706}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.0035586
-  m_Center: {x: 0.000000103459676, y: 0, z: -0.5035589}
 --- !u!1001 &407225199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2461,25 +2442,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808814211}
   m_CullTransparentMesh: 1
---- !u!1 &821100543 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8091140501533680516, guid: 8cbfb88d474fbf3409d5133734b244c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 2335467289152524705}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &821100547
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 821100543}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.95066786
-  m_Center: {x: -0.00000047997673, y: 0, z: -0.45066813}
 --- !u!1001 &824245587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3494,6 +3456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1128950924}
+  - component: {fileID: 1128950925}
   m_Layer: 5
   m_Name: Fade In
   m_TagString: Untagged
@@ -3523,6 +3486,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -440}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1128950925
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128950923}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ddccc93b9ee603e4b9d25e8bfd5230db, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1135479588
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,6 +5169,8 @@ MonoBehaviour:
   _countdownTimerText: {fileID: 1135479589}
   _waveEnemiesRemainingText: {fileID: 82714203}
   _nightTextAnimator: {fileID: 509019336}
+  _fadeInAnimator: {fileID: 1128950925}
+  _injuredBloodyScreenAnimator: {fileID: 330190749}
   _sunTimer: {fileID: 1696263352}
   _sunImage: {fileID: 1749196043}
   _clockBubbles: {fileID: 229476953}
@@ -5587,7 +5572,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 12
   m_WholeNumbers: 0
-  m_Value: 7
+  m_Value: 11.8
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6035,7 +6020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1844990163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6053,7 +6038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 1820, y: 200}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1844990164
@@ -6383,7 +6368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1965721176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6401,7 +6386,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 930}
+  m_AnchoredPosition: {x: 0, y: 1135}
   m_SizeDelta: {x: 1820, y: 200}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1965721177
@@ -6872,11 +6857,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1225535914924924916, guid: 8cbfb88d474fbf3409d5133734b244c9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2335467288814445782, guid: 8cbfb88d474fbf3409d5133734b244c9,
         type: 3}
       propertyPath: _staminaFill
@@ -6887,26 +6867,11 @@ PrefabInstance:
       propertyPath: _staminaSlider
       value: 
       objectReference: {fileID: 832897567}
-    - target: {fileID: 2537158094273331324, guid: 8cbfb88d474fbf3409d5133734b244c9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7701222533622934926, guid: 8cbfb88d474fbf3409d5133734b244c9,
         type: 3}
       propertyPath: _bulletContainer
       value: 
       objectReference: {fileID: 1364536860}
-    - target: {fileID: 8091140501533680516, guid: 8cbfb88d474fbf3409d5133734b244c9,
-        type: 3}
-      propertyPath: m_TagString
-      value: ZombiePlayerHands
-      objectReference: {fileID: 0}
-    - target: {fileID: 8648225769763854820, guid: 8cbfb88d474fbf3409d5133734b244c9,
-        type: 3}
-      propertyPath: m_TagString
-      value: ZombiePlayerHands
-      objectReference: {fileID: 0}
     - target: {fileID: 9120923699247296008, guid: 8cbfb88d474fbf3409d5133734b244c9,
         type: 3}
       propertyPath: m_RootOrder
