@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 
             if(Input.GetButtonDown("Fire1"))
             {
-                ZombieAttack();
+                StartCoroutine(ZombieAttack());
             }
         }
 

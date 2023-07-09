@@ -288,7 +288,7 @@ public class BasicZombie : MonoBehaviour
             _bloodExplosionContainer.position = transform.position;
             Instantiate(_bloodExplosionPrefab, _bloodExplosionContainer);
             _animator.SetTrigger("OnDeath");
-            GameManager.Instance.RemoveZombieFromWaveList(this.gameObject);
+            GameManager.Instance.RemoveZombieFromWaveList(transform.parent.gameObject);
             GameManager.Instance.CheckIfWaveIsOver();
             Destroy(transform.parent.gameObject, .5f);
 
